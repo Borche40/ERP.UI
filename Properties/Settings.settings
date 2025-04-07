@@ -1,0 +1,78 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ERP.UI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Protokollname" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ERP.UI.log</Value>
+    </Setting>
+    <Setting Name="BefehleKonfiguration" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Befehle.xml</Value>
+    </Setting>
+    <Setting Name="LetzterBefehlsindex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="OfflineDatenbank" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\HP\\source\\repos\\ERP.API\\Daten\\ERP_Database.mdf;Integrated Security=True;Connect Timeout=30;Database=ERP_Database"</Value>
+    </Setting>
+    <Setting Name="Offline" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="OnlineRestApiBasis" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:7016/</Value>
+    </Setting>
+    <Setting Name="OfflineAddIn" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ERP.Data.dll</Value>
+    </Setting>
+    <Setting Name="AktuellerSprachcode" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LightTheme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/Themes/LightTheme.xaml</Value>
+    </Setting>
+    <Setting Name="AktuellesThema" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DarkTheme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/Themes/DarkTheme.xaml</Value>
+    </Setting>
+    <Setting Name="WarOffline" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AngemeldetBleiben" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="HauptfensterBreite" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">800</Value>
+    </Setting>
+    <Setting Name="MinimaleAufgabenBreite" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1050</Value>
+    </Setting>
+    <Setting Name="MinimaleFensterBreite" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">700</Value>
+    </Setting>
+    <Setting Name="AlleAnzeigen" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Unten" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">57369</Value>
+    </Setting>
+    <Setting Name="Oben" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">57368</Value>
+    </Setting>
+    <Setting Name="Email" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Passwort" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Maximieren" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10064</Value>
+    </Setting>
+    <Setting Name="Widerherstellen" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">11036</Value>
+    </Setting>
+    <Setting Name="WiederherstellenTaste" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">11036</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

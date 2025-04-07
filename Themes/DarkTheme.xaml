@@ -1,0 +1,65 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+
+
+    <SolidColorBrush x:Key="Menu" Color="#22202E" />
+    <SolidColorBrush x:Key="Bestätigen" Color="CadetBlue" />
+    <SolidColorBrush x:Key="NichtBestätigt" Color="Lime" />
+    <SolidColorBrush x:Key="AnmeldenWechsel.Hell" Color="#858585" />
+    <SolidColorBrush x:Key="AnmeldenWechsel" Color="#65636A" />
+    <SolidColorBrush x:Key="BlauTaste" Color="#4CC2FF" />
+    <SolidColorBrush x:Key="Einstellungen" Color="#2E2C37" />
+    <SolidColorBrush x:Key="Text" Color="#FFEAEAEA" />
+    <SolidColorBrush x:Key="Aufgaben" Color="#1D1B29" />
+    <SolidColorBrush x:Key="Gruppe.NichtAktiv" Color="#1A1926" />
+    <SolidColorBrush x:Key="Gruppe.Aktiv" Color="#151321" />
+    <SolidColorBrush x:Key="GrauTaste" Color="#BE312F38" />
+    <SolidColorBrush x:Key="Hinweis" Color="#858585" />
+    <SolidColorBrush x:Key="Deaktiviert" Color="#555555" />
+    <SolidColorBrush x:Key="GrauTaste.Hell" Color="#65636A" />
+    <SolidColorBrush x:Key="SupportFenster" Color="#FFB7B7B7" />
+    <SolidColorBrush x:Key="SupportTexte" Color="#110E19" />
+    <SolidColorBrush x:Key="Korper" Color="#0E0C1B" />
+    <SolidColorBrush x:Key="Gruppe" Color="#BE312F38" />
+    <SolidColorBrush x:Key="Aufgabe" Color="#BE312F38" />
+    <SolidColorBrush x:Key="Seperator" Color="#BE312F38" />
+    <SolidColorBrush x:Key="AufgabeRand" Color="#3B3947" />
+    <SolidColorBrush x:Key="ScrollBar.Hintergrund" Color="#3B3947" />
+    <SolidColorBrush x:Key="ScrollBar.Daumen" Color="#FFEAEAEA" />
+    <SolidColorBrush x:Key="ScrollBar.Taste" Color="#3B3947" />
+    <SolidColorBrush x:Key="KalenderRand1" Color="#3B3947" />
+    <SolidColorBrush x:Key="KalenderRand2" Color="#BE312F38" />
+    <SolidColorBrush x:Key="KalenderFont1" Color="#EB4639" />
+    <SolidColorBrush x:Key="NachrichtBox.Oben" Color="#22202E" />
+    <SolidColorBrush x:Key="NachrichtBox.Unten" Color="#1D1B29" />
+
+    <Color
+    x:Key="Statisch"
+    A="255"
+    B="98"
+    G="91"
+    R="93" />
+    <Color
+    x:Key="Rotationsfarbe"
+    A="255"
+    B="234"
+    G="234"
+    R="234" />
+
+
+    <LinearGradientBrush x:Key="StatusAnzeigen" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0.5" Color="White" />
+        <GradientStop Offset="0.3" Color="#FFB7B7B7" />
+        <GradientStop Offset="0.8" Color="#FFB7B7B7" />
+        <GradientStop Offset="1.0" Color="#999999" />
+        <GradientStop Offset="0.0" Color="#999999" />
+    </LinearGradientBrush>
+    <Color
+    x:Key="Schatten"
+    A="255"
+    B="25"
+    G="14"
+    R="17" />
+
+</ResourceDictionary>

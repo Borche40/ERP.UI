@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Abbrechen" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Abmelden" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="AllesSchließenFrage" xml:space="preserve">
+    <value>All windows will be closed. Are you sure?</value>
+  </data>
+  <data name="Anmelden" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="AnmeldenFrage" xml:space="preserve">
+    <value>Have an account?</value>
+  </data>
+  <data name="AnmeldungFehler" xml:space="preserve">
+    <value>Invalid email or password. Please check and try again</value>
+  </data>
+  <data name="AnmeldungTitel" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Anzeigen" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="AppTitel" xml:space="preserve">
+    <value>ERP.UI</value>
+  </data>
+  <data name="Benutzer" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Benutzername" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Bestellungen" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="BestätigePasswort" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Dunkel" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Einstellungen" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="EmailFehlt" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+  <data name="EmailNichtGültig" xml:space="preserve">
+    <value>The entered email address has an invalid format.</value>
+  </data>
+  <data name="FehlerName" xml:space="preserve">
+    <value>Please enter a name with at least 3 letters.</value>
+  </data>
+  <data name="HauptMenü" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
+  <data name="Hell" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Ja" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Kunden" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="NameFehler" xml:space="preserve">
+    <value>Name cannot contain white spaces.</value>
+  </data>
+  <data name="Nein" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NeueAufgabeFehler" xml:space="preserve">
+    <value>Data for New Task Missing! Please provide all necessary data to add a new task.</value>
+  </data>
+  <data name="NeueAufgabeTag" xml:space="preserve">
+    <value>Enter task day.</value>
+  </data>
+  <data name="NeueAufgabeTipp" xml:space="preserve">
+    <value>Enter a description of your next task.</value>
+  </data>
+  <data name="NeueGruppeFehler" xml:space="preserve">
+    <value>Please provide a name for the new group!</value>
+  </data>
+  <data name="NeueGruppeTipp" xml:space="preserve">
+    <value>Enter a name for the new group.</value>
+  </data>
+  <data name="NeuesFenster" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Passwort" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswortFehler" xml:space="preserve">
+    <value>The passwords do not match. Please check your input.</value>
+  </data>
+  <data name="PasswortFehlt" xml:space="preserve">
+    <value>Please enter a password. The password must be 8 characters long.</value>
+  </data>
+  <data name="Produkte" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Rechnungen" xml:space="preserve">
+    <value>Invoices</value>
+  </data>
+  <data name="Registrieren" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegistrierenFrage" xml:space="preserve">
+    <value>Don't have an account?</value>
+  </data>
+  <data name="RegistrierenTitel" xml:space="preserve">
+    <value>Create Account</value>
+  </data>
+  <data name="RegistrierenWarnung" xml:space="preserve">
+    <value>You need to be online to register a new account.</value>
+  </data>
+  <data name="RegistrierungErfolgreich" xml:space="preserve">
+    <value>Registration successful! Would you like to log in now?</value>
+  </data>
+  <data name="RegistrierungFehler" xml:space="preserve">
+    <value>Registration unsuccessful. It seems that the provided email is already associated with an account. Please try logging in or use a different email to register.</value>
+  </data>
+  <data name="SchlüsselAbgelaufen" xml:space="preserve">
+    <value>Your access key has expired. Please login in again.</value>
+  </data>
+  <data name="Settings Language" xml:space="preserve">
+    <value>Change Language</value>
+  </data>
+  <data name="Sprachen" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Sprachwechsel" xml:space="preserve">
+    <value>Please restart the application to take the new language!</value>
+  </data>
+  <data name="Startseite" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="Themewechseln" xml:space="preserve">
+    <value>Change Theme</value>
+  </data>
+</root>

@@ -1,0 +1,102 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+    
+
+    <Color x:Key="BackgroundColor">#FFFFFF</Color>
+    <Color x:Key="ForegroundColor">#000000</Color>
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
+
+    <SolidColorBrush x:Key="HauptMenü" Color="#FCFCFC" />
+    <SolidColorBrush x:Key="Startseite" Color="#4C50FF" />
+    <SolidColorBrush x:Key="Kunden" Color="#90EE90" />
+    <SolidColorBrush x:Key="Bestellungen" Color="#4CC2FF" />
+    <SolidColorBrush x:Key="Einstellungen" Color="#CDCDF9" />
+    <SolidColorBrush x:Key="Produkte" Color="#333333" />
+    <SolidColorBrush x:Key="Rechnungen" Color="#E6E6FF" />
+    <SolidColorBrush x:Key="Themewechseln" Color="#EBEBFF" />
+    <SolidColorBrush x:Key="Sprachen" Color="#E6E6FF" />
+    <SolidColorBrush x:Key="Benutzer" Color="#B9B9B9" />
+    <SolidColorBrush x:Key="GrauTaste.Hell" Color="#D1D1D1" />
+    <SolidColorBrush x:Key="Anmelden" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="Abmelden" Color="#ADADAD" />
+
+
+
+    <ControlTemplate x:Key="ScrollViewerTemplate1" TargetType="{x:Type ScrollViewer}">
+        <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="leftColumn" Width="*"/>
+                <ColumnDefinition x:Name="rightColumn" Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanHorizontallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" CanVerticallyScroll="False" Grid.Column="0" Content="{TemplateBinding Content}" CanContentScroll="{TemplateBinding CanContentScroll}" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+            <ScrollBar x:Name="PART_VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+            <ScrollBar x:Name="PART_HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="mah:ScrollViewerHelper.VerticalScrollBarOnLeftSide" Value="True">
+                <Setter Property="Grid.Column" TargetName="PART_HorizontalScrollBar" Value="1"/>
+                <Setter Property="Grid.Column" TargetName="PART_ScrollContentPresenter" Value="1"/>
+                <Setter Property="Grid.Column" TargetName="PART_VerticalScrollBar" Value="0"/>
+                <Setter Property="Width" TargetName="leftColumn" Value="Auto"/>
+                <Setter Property="Width" TargetName="rightColumn" Value="*"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Color
+        x:Key="Statisch"
+        A="255"
+        B="98"
+        G="91"
+        R="93" />
+    <Color
+        x:Key="Rotationsfarbe"
+        A="255"
+        B="243"
+        G="213"
+        R="243" />
+
+    <LinearGradientBrush x:Key="StatusAnzeigen" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0.5" Color="#555555" />
+        <GradientStop Offset="0.3" Color="#555555" />
+        <GradientStop Offset="0.8" Color="#555555" />
+        <GradientStop Offset="1.0" Color="#B8B8B8" />
+        <GradientStop Offset="0.0" Color="#B8B8B8" />
+    </LinearGradientBrush>
+
+    <Color
+        x:Key="Schatten"
+        A="255"
+        B="135"
+        G="135"
+        R="135" />
+    <Style x:Key="FrameStyle2" TargetType="{x:Type Frame}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Frame}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter x:Name="PART_FrameCP"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="NavigationUIVisibility" Value="Visible">
+                <Setter Property="Template" Value="{StaticResource FrameNavChromeTemplateKey}"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="JournalOwnership" Value="OwnsJournal"/>
+                    <Condition Property="NavigationUIVisibility" Value="Automatic"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Template" Value="{StaticResource FrameNavChromeTemplateKey}"/>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

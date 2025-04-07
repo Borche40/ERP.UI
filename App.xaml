@@ -1,0 +1,30 @@
+﻿<Application x:Class="ERP.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ERP.UI"
+            
+             
+             >
+    
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/Styles/AufgabeStyle.xaml"/>
+                <ResourceDictionary Source="/Styles/AnmeldungTaste.xaml"/>
+                <ResourceDictionary Source="/Styles/Navigation.xaml"/>
+                <ResourceDictionary Source="/Themes/DarkTheme.xaml"/>
+                
+
+            </ResourceDictionary.MergedDictionaries>
+            
+        </ResourceDictionary>
+            
+           
+         
+            
+        
+    </Application.Resources>
+</Application>
