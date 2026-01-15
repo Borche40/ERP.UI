@@ -16,9 +16,6 @@ Fokus: saubere Struktur, wartbarer Code und typische Business-Workflows (CRUD, V
 - Dashboard mit KPIs und Diagrammen
 - Validierung, Fehlerbehandlung & Logging
 
-## Screenshots
-> (Bilder liegen unter `docs/screenshots/`)
-
 # ERP UI System (C# WPF / MVVM / SQL Server)
 
 ## Überblick
