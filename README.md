@@ -73,14 +73,6 @@ Fokus: saubere Struktur, wartbarer Code und typische Business-Workflows (CRUD, V
 ![API Swagger](docs/API-Swagger.png)
 
 
-## Projektstruktur (Kurz)
-- `Views/` – UI Views (WPF)
-- `ViewModel/` – MVVM ViewModels
-- `Models/` – Datenmodelle
-- `Commands/` – Commands / UI Aktionen
-- `Styles/` / `Themes/` – UI Styles & Themes
-- `docs/screenshots/` – Screenshots für README
-
 ## How to Run (lokal)
 1. Repository klonen
 2. Solution in **Visual Studio** öffnen
