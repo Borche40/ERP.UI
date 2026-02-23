@@ -56,7 +56,7 @@ Fokus: saubere Struktur, wartbarer Code und typische Business-Workflows (CRUD, V
 
 ### Produktdetails
 ![Produktdetails](docs/Produktdetails.png)
-###Aufgaben
+### Aufgaben
 ![Aufgabenübersicht](docs/Aufgabenubersicht%20photo.png)
 
 ### Warnungen
