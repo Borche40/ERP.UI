@@ -45,8 +45,6 @@ Fokus: saubere Struktur, wartbarer Code und typische Business-Workflows (CRUD, V
 ### Dashboard (Variante)
 ![Dashboard Variante](docs/Dashboard%201.png)
 
-### Aufgaben – Übersicht
-![Aufgabenübersicht](docs/Aufgabenübersicht.png)
 ### Benutzer – Abmelden
 ![Benutzer Abmelden](docs/Benutzer%20Abmelden.png)
 
