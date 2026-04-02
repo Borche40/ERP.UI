@@ -1,0 +1,16 @@
+C:\Users\HP\source\repos\Anwendung\bin\Release\net8.0\Anwendung.deps.json
+C:\Users\HP\source\repos\Anwendung\bin\Release\net8.0\Anwendung.dll
+C:\Users\HP\source\repos\Anwendung\bin\Release\net8.0\Anwendung.pdb
+C:\Users\HP\source\repos\Anwendung\bin\Release\net8.0\de\Anwendung.resources.dll
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.Properties.Resources.resources
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.Properties.Resources.de.resources
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.csproj.GenerateResource.cache
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.AssemblyInfoInputs.cache
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.AssemblyInfo.cs
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.csproj.CoreCompileInputs.cache
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\de\Anwendung.resources.dll
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.dll
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\refint\Anwendung.dll
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\Anwendung.pdb
+C:\Users\HP\source\repos\Anwendung\obj\Release\net8.0\ref\Anwendung.dll
