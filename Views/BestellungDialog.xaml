@@ -1,0 +1,838 @@
+﻿<Window x:Class="ERP.UI.Views.BestellungDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:ERP.UI.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewmodel:BestellungDialogViewModel}"
+        mc:Ignorable="d"
+        Title="Bestellung"
+        Height="860"
+        Width="1380"
+        MinHeight="720"
+        MinWidth="900"
+        Background="#171923"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+
+        <!-- Farben -->
+        <SolidColorBrush x:Key="WindowBg" Color="#171923"/>
+        <SolidColorBrush x:Key="PageBg" Color="#1C1E26"/>
+        <SolidColorBrush x:Key="CardBg" Color="#202331"/>
+        <SolidColorBrush x:Key="CardBg2" Color="#25293A"/>
+        <SolidColorBrush x:Key="CardBg3" Color="#2B3045"/>
+        <SolidColorBrush x:Key="BorderSoft" Color="#313853"/>
+        <SolidColorBrush x:Key="BorderStrong" Color="#3A4260"/>
+        <SolidColorBrush x:Key="TextMain" Color="#F2F5FF"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#AEB7D3"/>
+        <SolidColorBrush x:Key="TextDim" Color="#8C95B2"/>
+
+        <SolidColorBrush x:Key="BlueBrush" Color="#2F80ED"/>
+        <SolidColorBrush x:Key="GreenBrush" Color="#16C172"/>
+        <SolidColorBrush x:Key="RedBrush" Color="#D94C5C"/>
+        <SolidColorBrush x:Key="OrangeBrush" Color="#E9A23B"/>
+        <SolidColorBrush x:Key="PurpleBrush" Color="#7B61FF"/>
+        <SolidColorBrush x:Key="DarkButtonBrush" Color="#313853"/>
+
+        <!-- Grundkarten -->
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBg}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="16"/>
+        </Style>
+
+        <!-- Beschriftungen -->
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextMuted}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <!-- Eingabefelder -->
+        <Style x:Key="FormTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#31405F"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource BlueBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="12,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource FormComboBoxItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="MainBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="36"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ContentPresenter Margin="12,0,8,0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  IsHitTestVisible="False"/>
+
+                                <Border Grid.Column="1" Background="Transparent">
+                                    <TextBlock Text="▾"
+                                               Foreground="{StaticResource TextMuted}"
+                                               FontSize="12"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+
+                            <Popup x:Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Fade">
+                                <Border Margin="0,4,0,0"
+                                        Background="{StaticResource CardBg2}"
+                                        BorderBrush="{StaticResource BorderStrong}"
+                                        BorderThickness="1"
+                                        CornerRadius="5">
+                                    <ScrollViewer MaxHeight="260">
+                                        <StackPanel IsItemsHost="True"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="MainBorder" Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MainBorder" Property="BorderBrush" Value="#44507A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormDatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="8,2"/>
+        </Style>
+
+        <!-- ERP Toolbar Buttons -->
+        <Style x:Key="ToolbarButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="MinWidth" Value="98"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.94"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.38"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GreenButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource GreenBrush}"/>
+        </Style>
+
+        <Style x:Key="BlueButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource BlueBrush}"/>
+        </Style>
+
+        <Style x:Key="DarkButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource DarkButtonBrush}"/>
+        </Style>
+
+        <Style x:Key="RedButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource RedBrush}"/>
+        </Style>
+
+        <!-- Kleine Buttons -->
+        <Style x:Key="MiniDarkButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource DarkButtonBrush}"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="MinWidth" Value="82"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,0"/>
+        </Style>
+
+        <!-- Status Pill -->
+        <Style x:Key="StatusBadgeStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Background" Value="#4B5563"/>
+        </Style>
+
+        <!-- Tabs -->
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="{StaticResource CardBg}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="Padding" Value="14,7"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource CardBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="RowBackground" Value="{StaticResource CardBg}"/>
+            <Setter Property="AlternatingRowBackground" Value="#23283A"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#2D3550"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#2D3550"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="RowHeight" Value="42"/>
+            <Setter Property="ColumnHeaderHeight" Value="40"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderBrush" Value="#2D3550"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="10,0"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="{StaticResource CardBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#283047"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#2F3D63"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="{StaticResource WindowBg}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+            <Grid Margin="22"
+                  Background="{StaticResource PageBg}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Kopfbereich -->
+                <Grid Grid.Row="0" Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Bestellung"
+                                   Foreground="{StaticResource TextMain}"
+                                   FontSize="26"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+
+                        <Border Background="{StaticResource CardBg2}"
+                                CornerRadius="5"
+                                Margin="16,0,0,0"
+                                Padding="14,8">
+                            <TextBlock Text="{Binding Bestellnummer, TargetNullValue=SO-2026-000001}"
+                                       Foreground="#7DB3FF"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Statusanzeige rechts -->
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Status:"
+                                   Foreground="{StaticResource TextMuted}"
+                                   Margin="0,0,10,0"
+                                   VerticalAlignment="Center"/>
+
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border" BasedOn="{StaticResource StatusBadgeStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Status}" Value="Offen">
+                                            <Setter Property="Background" Value="#E9A23B"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Bestätigt">
+                                            <Setter Property="Background" Value="#2F80ED"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Versendet">
+                                            <Setter Property="Background" Value="#7B61FF"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Abgeschlossen">
+                                            <Setter Property="Background" Value="#16C172"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Storniert">
+                                            <Setter Property="Background" Value="#D94C5C"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <TextBlock Text="{Binding Status}"
+                                       Foreground="White"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- ERP Header Formular -->
+                <Border Grid.Row="1"
+                        Style="{StaticResource CardBorderStyle}"
+                        Margin="0,0,0,14">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Bestellkopf"
+                                   Foreground="{StaticResource TextMain}"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,14"/>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="260"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="220"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Zeile 1 -->
+                            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,14,12">
+                                <TextBlock Text="Kunde-ID"
+                                           Style="{StaticResource FieldLabelStyle}"/>
+                                <TextBox Text="{Binding KundeID, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource FormTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,14,12">
+                                <TextBlock Text="Bestelldatum"
+                                           Style="{StaticResource FieldLabelStyle}"/>
+                                <DatePicker SelectedDate="{Binding Bestelldatum, Mode=TwoWay}"
+                                            Style="{StaticResource FormDatePickerStyle}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,0,0,12">
+                                <TextBlock Text="Bestellnummer"
+                                           Style="{StaticResource FieldLabelStyle}"/>
+                                <TextBox Text="{Binding Bestellnummer}"
+                                         Style="{StaticResource FormTextBoxStyle}"
+                                         IsReadOnly="True"/>
+                            </StackPanel>
+
+                            <!-- Zeile 2 -->
+                            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,14,0">
+                                <TextBlock Text="Bestellstatus"
+                                           Style="{StaticResource FieldLabelStyle}"/>
+                                <ComboBox SelectedIndex="0"
+                                          Style="{StaticResource FormComboBoxStyle}">
+                                    <ComboBoxItem Content="Offen"/>
+                                    <ComboBoxItem Content="Bestätigt"/>
+                                    <ComboBoxItem Content="Versendet"/>
+                                    <ComboBoxItem Content="Abgeschlossen"/>
+                                    <ComboBoxItem Content="Storniert"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,14,0">
+                                <TextBlock Text="Zahlungsstatus"
+                                           Style="{StaticResource FieldLabelStyle}"/>
+                                <ComboBox SelectedIndex="0"
+                                          Style="{StaticResource FormComboBoxStyle}">
+                                    <ComboBoxItem Content="Offen"/>
+                                    <ComboBoxItem Content="Teilweise bezahlt"/>
+                                    <ComboBoxItem Content="Bezahlt"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2">
+                                <TextBlock Text="Gesamtbetrag"
+                                           Style="{StaticResource FieldLabelStyle}"/>
+                                <TextBox Text="{Binding Gesamtbetrag, StringFormat={}{0:F2}}"
+                                         Style="{StaticResource FormTextBoxStyle}"
+                                         IsReadOnly="True"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Toolbar -->
+                <Border Grid.Row="2"
+                        Style="{StaticResource CardBorderStyle}"
+                        Margin="0,0,0,14"
+                        Padding="12">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Button Style="{StaticResource GreenButtonStyle}"
+                                Content="+ Neu"
+                                Command="{Binding NeueCommand}"/>
+
+                        <Button Style="{StaticResource BlueButtonStyle}"
+                                Content="Bearbeiten"
+                                Command="{Binding BearbeitenCommand}"/>
+
+                        <Button Style="{StaticResource DarkButtonStyle}"
+                                Content="Status ändern"
+                                Command="{Binding StatusÄndernCommand}"/>
+
+                        <Button Style="{StaticResource DarkButtonStyle}"
+                                Content="Stornieren"
+                                Command="{Binding StornierenCommand}"/>
+
+                        <Button Style="{StaticResource DarkButtonStyle}"
+                                Content="Aktualisieren"
+                                Command="{Binding AktualisierenCommand}"/>
+
+                        <Button Style="{StaticResource BlueButtonStyle}"
+                                Content="Versenden"
+                                Command="{Binding VersendenCommand}"/>
+                    </WrapPanel>
+                </Border>
+
+                <!-- Hauptbereich -->
+                <TabControl Grid.Row="3"
+                            Margin="0,0,0,14"
+                            Background="{StaticResource CardBg}"
+                            BorderBrush="{StaticResource BorderSoft}"
+                            Foreground="{StaticResource TextMain}">
+
+                    <!-- Positionen -->
+                    <TabItem Header="Positionen">
+                        <Grid Margin="14">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Positions-Toolbar -->
+                            <Grid Grid.Row="0" Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource MiniDarkButtonStyle}"
+                                            Content="+ Position"/>
+
+                                    <Button Style="{StaticResource MiniDarkButtonStyle}"
+                                            Content="Löschen"
+                                            Command="{Binding BestellPositionenViewModel.LöschenCommand}"/>
+
+                                    <Button Style="{StaticResource MiniDarkButtonStyle}"
+                                            Content="Aktualisieren"
+                                            Command="{Binding AktualisierenCommand}"/>
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Bestellpositionen"
+                                           Foreground="{StaticResource TextMuted}"
+                                           FontSize="12"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <!-- Grid -->
+                            <Border Grid.Row="1"
+                                    Background="{StaticResource CardBg}"
+                                    BorderBrush="{StaticResource BorderSoft}"
+                                    BorderThickness="1"
+                                    CornerRadius="6">
+                                <DataGrid ItemsSource="{Binding BestellPositionenViewModel.BestellPositionen}"
+                                          SelectedItem="{Binding BestellPositionenViewModel.AusgewähltePosition, Mode=TwoWay}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="ID"
+                                                            Binding="{Binding ID}"
+                                                            Width="70"/>
+
+                                        <DataGridTextColumn Header="Produkt"
+                                                            Binding="{Binding Produkt.ProduktName, TargetNullValue=—}"
+                                                            Width="340"/>
+
+                                        <DataGridTextColumn Header="Menge"
+                                                            Binding="{Binding Menge}"
+                                                            Width="100"/>
+
+                                        <DataGridTextColumn Header="Einzelpreis (€)"
+                                                            Binding="{Binding Preis, StringFormat={}{0:F2}}"
+                                                            Width="150"/>
+
+                                        <DataGridTextColumn Header="Gesamt Netto (€)"
+                                                            Binding="{Binding Gesamtpreis, StringFormat={}{0:F2}}"
+                                                            Width="170"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+
+                            <!-- Summen -->
+                            <Grid Grid.Row="2" Margin="0,14,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="320"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="1"
+                                        Background="{StaticResource CardBg2}"
+                                        BorderBrush="{StaticResource BorderSoft}"
+                                        BorderThickness="1"
+                                        CornerRadius="6"
+                                        Padding="14">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Gesamt Netto:"
+                                                       Foreground="{StaticResource TextMuted}"
+                                                       FontSize="14"/>
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding NettoSumme, StringFormat={}{0:F2} €}"
+                                                       Foreground="White"
+                                                       FontSize="14"
+                                                       FontWeight="SemiBold"/>
+                                        </Grid>
+
+                                        <Grid Margin="0,0,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="MwSt:"
+                                                       Foreground="{StaticResource TextMuted}"
+                                                       FontSize="14"/>
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding MwStSumme, StringFormat={}{0:F2} €}"
+                                                       Foreground="White"
+                                                       FontSize="14"
+                                                       FontWeight="SemiBold"/>
+                                        </Grid>
+
+                                        <Border BorderBrush="{StaticResource BorderSoft}"
+                                                BorderThickness="0,1,0,0"
+                                                Padding="0,10,0,0"
+                                                Margin="0,4,0,0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="Gesamt Brutto:"
+                                                           Foreground="White"
+                                                           FontSize="16"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding BruttoSumme, StringFormat={}{0:F2} €}"
+                                                           Foreground="White"
+                                                           FontSize="16"
+                                                           FontWeight="Bold"/>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Zahlungen -->
+                    <TabItem Header="Zahlungen">
+                        <Grid Margin="14">
+                            <Border Style="{StaticResource CardBorderStyle}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Zahlungsinformationen"
+                                               Foreground="{StaticResource TextMain}"
+                                               FontSize="15"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,14"/>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="260"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="260"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,18,0">
+                                            <TextBlock Text="Zahlungsstatus"
+                                                       Style="{StaticResource FieldLabelStyle}"/>
+                                            <ComboBox ItemsSource="{Binding ZahlungsstatusListe}"
+                                                     SelectedItem="{Binding AusgewählterZahlungsstatus,Mode=TwoWay}"
+                                                        Style="{StaticResource FormComboBoxStyle}">
+                                                
+                                                
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
+                                            <TextBlock Text="Zahlungsbetrag"
+                                                       Style="{StaticResource FieldLabelStyle}"/>
+                                            <TextBox Style="{StaticResource FormTextBoxStyle}"
+                                                     Text="{Binding BruttoSumme, StringFormat={}{0:F2}}"
+                                                     IsReadOnly="True"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Versand -->
+                    <TabItem Header="Versand">
+                        <Grid Margin="14">
+                            <Border Style="{StaticResource CardBorderStyle}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Versandinformationen"
+                                               Foreground="{StaticResource TextMain}"
+                                               FontSize="15"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,14"/>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="280"/>
+                                            <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="280"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,18,0">
+                                            <TextBlock Text="Versandstatus"
+                                                       Style="{StaticResource FieldLabelStyle}"/>
+                                            <TextBox Style="{StaticResource FormTextBoxStyle}"
+                                                     Text="{Binding Status}"
+                                                     IsReadOnly="True"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
+                                            <TextBlock Text="Versandaktion"
+                                                       Style="{StaticResource FieldLabelStyle}"/>
+                                            <Button Style="{StaticResource BlueButtonStyle}"
+                                                    Content="Bestellung versenden"
+                                                    Width="180"
+                                                    HorizontalAlignment="Left"
+                                                    Command="{Binding VersendenCommand}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Historie -->
+                    <TabItem Header="Historie">
+                        <Grid Margin="14">
+                            <Border Style="{StaticResource CardBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Text="Systemhistorie"
+                                               Foreground="{StaticResource TextMain}"
+                                               FontSize="15"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,14"/>
+
+                                    <TextBlock Text="Hier können Statusänderungen, Versandereignisse und Bearbeitungsprotokolle angezeigt werden."
+                                               Foreground="{StaticResource TextMuted}"
+                                               FontSize="14"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+                <!-- Footer -->
+                <Border Grid.Row="4"
+                        Style="{StaticResource CardBorderStyle}"
+                        Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="ERP Bestellworkflow"
+                                       Foreground="{StaticResource TextMuted}"
+                                       FontSize="12"
+                                       Margin="0,0,12,0"/>
+                            <TextBlock Text="Neu → Speichern → Positionen → Versenden → Abschluss"
+                                       Foreground="{StaticResource TextDim}"
+                                       FontSize="12"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal">
+                            <Button Style="{StaticResource GreenButtonStyle}"
+                                    Content="Speichern"
+                                    Command="{Binding SpeichernCommand}"/>
+
+                            <Button Style="{StaticResource BlueButtonStyle}"
+                                    Content="Versenden"
+                                    Command="{Binding VersendenCommand}"/>
+
+                            <Button Style="{StaticResource RedButtonStyle}"
+                                    Content="Abbrechen"
+                                    Command="{Binding AbbrechenCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>

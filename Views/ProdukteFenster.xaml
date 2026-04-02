@@ -1,0 +1,21 @@
+﻿<Window x:Class="ERP.UI.Views.ProdukteFenster"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ERP.UI.Views"
+         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:viewmodel="clr-namespace:ERP.UI.ViewModel"
+        xmlns:views="clr-namespace:ERP.UI.Views"
+        mc:Ignorable="d"
+        Title="Produkteverwaltung" Height="700" Width="1100"
+        Background="#1C1E26"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        FontFamily="Segoe UI">
+    <Grid>
+
+        <views:ProdukteView/>
+
+    </Grid>
+</Window>

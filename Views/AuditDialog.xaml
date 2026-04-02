@@ -1,0 +1,448 @@
+﻿<Window x:Class="ERP.UI.Views.AuditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:ERP.UI.ViewModel"
+        mc:Ignorable="d"
+        Title="Audit-Verlauf"
+        Height="700"
+        Width="1100"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E2F"
+        Foreground="White">
+    <Window.Resources>
+        <!--Dark DatePickel Style-->
+
+        <Style TargetType="DatePicker">
+            <Setter Property="Foreground" Value ="White"/>
+            <Setter Property="Background" Value="#1F2330"/>
+            <Setter Property="BorderBrush" Value="#4A5570"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="DatePickerTextBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#1F2330"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+    </Window.Resources>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="220"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Titelbereich -->
+        <Border Grid.Row="0"
+                Background="#2A2A40"
+                CornerRadius="8"
+                Padding="12"
+                Margin="0,0,0,12">
+            <TextBlock Text="Audit-Verlauf für Produkte"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="White"/>
+        </Border>
+
+        <!-- Filterbereich -->
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,12"
+                    VerticalAlignment="Center">
+
+            <TextBlock Text="Aktion filtern:"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Foreground="White"
+                       Margin="0,0,10,0"/>
+
+            <ComboBox Width="180"
+                      Height="36"
+                      ItemsSource="{Binding AktionenFilter}"
+                      SelectedItem="{Binding AusgewählteAktion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Background="#1F2330"
+                      Foreground="White"
+                      BorderBrush="#4A5570"
+                      FontSize="14"
+                      FontWeight="SemiBold"
+                      Padding="8,4">
+
+                <ComboBox.Resources>
+                    <Style TargetType="ToggleButton" x:Key="ComboToggleButton">
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border Background="#2A2A40"
+                                            BorderBrush="#4A5570"
+                                            BorderThickness="1"
+                                            CornerRadius="0,4,4,0">
+                                        <Path HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Fill="White"
+                                              Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="#1F2330"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter Property="Background" Value="#3A3A55"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#4A5570"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+
+                <ComboBox.Template>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="36"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Hauptbereich -->
+                            <Border Grid.Column="0"
+                                    Background="#1F2330"
+                                    BorderBrush="#4A5570"
+                                    BorderThickness="1"
+                                    CornerRadius="4,0,0,4">
+                                <ContentPresenter Margin="10,0,6,0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                                  RecognizesAccessKey="True"
+                                                  TextElement.Foreground="White"/>
+                            </Border>
+
+                            <!-- Dropdown-Button -->
+                            <ToggleButton Grid.Column="1"
+                                          Style="{StaticResource ComboToggleButton}"
+                                          IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                          ClickMode="Press"/>
+
+                            <!-- Popup -->
+                            <Popup x:Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Border Background="#1F2330"
+                                        BorderBrush="#4A5570"
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Margin="0,2,0,0"
+                                        MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ScrollViewer MaxHeight="220">
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </ComboBox.Template>
+            </ComboBox>
+
+            <TextBlock Text="Benutzer filtern:"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Foreground="White"
+                       Margin="20,0,10,0"/>
+
+            <ComboBox Width="180"
+                      Height="36"
+                      ItemsSource="{Binding BenutzerFilter}"
+                      SelectedItem="{Binding AusgewählteBenutzer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Background="#1F2330"
+                      Foreground="White"
+                      BorderBrush="#4A5570"
+                      FontSize="14"
+                      FontWeight="SemiBold"
+                      Padding="8,4">
+
+                <ComboBox.Resources>
+                    <Style TargetType="ToggleButton" x:Key="BenutzerComboToggleButton">
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border Background="#2A2A40"
+                                            BorderBrush="#4A5570"
+                                            BorderThickness="1"
+                                            CornerRadius="0,4,4,0">
+                                        <Path HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Fill="White"
+                                              Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="#1F2330"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter Property="Background" Value="#3A3A55"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#4A5570"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+
+                <ComboBox.Template>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="36"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Hauptbereich -->
+                            <Border Grid.Column="0"
+                                    Background="#1F2330"
+                                    BorderBrush="#4A5570"
+                                    BorderThickness="1"
+                                    CornerRadius="4,0,0,4">
+                                <ContentPresenter Margin="10,0,6,0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                                  RecognizesAccessKey="True"
+                                                  TextElement.Foreground="White"/>
+                            </Border>
+
+                            <!-- Dropdown-Button -->
+                            <ToggleButton Grid.Column="1"
+                                          Style="{StaticResource BenutzerComboToggleButton}"
+                                          IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                          ClickMode="Press"/>
+
+                            <!-- Popup -->
+                            <Popup x:Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Border Background="#1F2330"
+                                        BorderBrush="#4A5570"
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Margin="0,2,0,0"
+                                        MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ScrollViewer MaxHeight="220">
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </ComboBox.Template>
+            </ComboBox>
+
+            <TextBlock Text="Von:"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Foreground="White"
+                       Margin="20,0,10,0"/>
+
+            <DatePicker Width="135"
+                        Height="36"
+                        SelectedDate="{Binding AusgewähltesVonDatum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Background="#1F2330"
+                        Foreground="White"
+                        BorderBrush="#4A5570"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        SelectedDateFormat="Short"
+                        Padding="6,4"/>
+
+            <TextBlock Text="Bis:"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Foreground="White"
+                       Margin="20,0,10,0"/>
+
+            <DatePicker Width="135"
+                        Height="36"
+                        SelectedDate="{Binding AusgewähltesBisDatum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Background="#1F2330"
+                        Foreground="White"
+                        BorderBrush="#4A5570"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        SelectedDateFormat="Short"
+                        Padding="6,4"/>
+        </StackPanel>
+
+        <!-- Audit-Tabelle -->
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding AuditEinträge}"
+                  SelectedItem="{Binding AusgewählterEintrag, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  RowBackground="#25253A"
+                  AlternatingRowBackground="#2E2E47"
+                  Background="#25253A"
+                  Foreground="White"
+                  BorderBrush="#3A3A55"
+                  BorderThickness="1"
+                  Margin="0,0,0,12">
+
+            <DataGrid.Columns>
+                <!-- Aktion -->
+                <DataGridTemplateColumn Header="Aktion" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Aktion}"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="White"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Aktion}" Value="INSERT">
+                                                <Setter Property="Foreground" Value="#7CFC00"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Aktion}" Value="UPDATE">
+                                                <Setter Property="Foreground" Value="#4FC3F7"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Aktion}" Value="DELETE">
+                                                <Setter Property="Foreground" Value="#FF5252"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- DatensatzId -->
+                <DataGridTextColumn Header="Datensatz-ID"
+                                    Binding="{Binding DatensatzId}"
+                                    Width="120"/>
+
+                <!-- Benutzer -->
+                <DataGridTextColumn Header="Benutzer"
+                                    Binding="{Binding BenutzerName}"
+                                    Width="180"/>
+
+                <!-- Zeitpunkt -->
+                <DataGridTextColumn Header="Zeitpunkt"
+                                    Binding="{Binding ErstelltAm, StringFormat=dd.MM.yyyy HH:mm:ss}"
+                                    Width="190"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Detailbereich -->
+        <Grid Grid.Row="3" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- AlterWert -->
+            <Border Grid.Column="0"
+                    Background="#2A2A40"
+                    CornerRadius="8"
+                    Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Alter Wert"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#FFB347"
+                               Margin="0,0,0,8"/>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding AusgewählterEintrag.AlterWert}"
+                                   TextWrapping="Wrap"
+                                   Foreground="White"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
+
+            <!-- NeuerWert -->
+            <Border Grid.Column="2"
+                    Background="#2A2A40"
+                    CornerRadius="8"
+                    Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Neuer Wert"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#7CFC00"
+                               Margin="0,0,0,8"/>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding AusgewählterEintrag.NeuerWert}"
+                                   TextWrapping="Wrap"
+                                   Foreground="White"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Buttonbereich -->
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Schließen"
+                    Width="120"
+                    Height="36"
+                    Background="#3A3A55"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="Schließen_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

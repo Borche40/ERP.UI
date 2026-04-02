@@ -1,0 +1,555 @@
+﻿<UserControl x:Class="ERP.UI.Views.BestellungenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodel="clr-namespace:ERP.UI.ViewModel"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=viewmodel:BestellungenViewModel}"
+             Background="#1C1E26">
+
+    <UserControl.Resources>
+
+        <!-- Farben -->
+        <SolidColorBrush x:Key="PageBg" Color="#1C1E26"/>
+        <SolidColorBrush x:Key="CardBg" Color="#202331"/>
+        <SolidColorBrush x:Key="CardBg2" Color="#25293A"/>
+        <SolidColorBrush x:Key="BorderSoft" Color="#2E3550"/>
+        <SolidColorBrush x:Key="TextMain" Color="#F2F5FF"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#AEB7D3"/>
+        <SolidColorBrush x:Key="BlueBrush" Color="#2F80ED"/>
+        <SolidColorBrush x:Key="GreenBrush" Color="#16C172"/>
+        <SolidColorBrush x:Key="RedBrush" Color="#D94C5C"/>
+        <SolidColorBrush x:Key="OrangeBrush" Color="#E9A23B"/>
+        <SolidColorBrush x:Key="PurpleBrush" Color="#7B61FF"/>
+        <SolidColorBrush x:Key="RowHoverBrush" Color="#283047"/>
+        <SolidColorBrush x:Key="RowSelectedBrush" Color="#2F3D63"/>
+
+        <!-- TextBox -->
+        <Style x:Key="FilterTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="BorderBrush" Value="#313853"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="12,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ComboBoxItem -->
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#31405F"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#2F80ED"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ComboBox -->
+        <Style x:Key="FilterComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="BorderBrush" Value="#313853"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="12,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="MainBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"/>
+
+                            <Grid Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="34"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ContentPresenter Margin="12,0,8,0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  IsHitTestVisible="False"/>
+
+                                <Border Grid.Column="1"
+                                        Background="Transparent">
+                                    <TextBlock Text="▾"
+                                               Foreground="{StaticResource TextMuted}"
+                                               FontSize="12"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+
+                            <Popup x:Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Fade">
+                                <Border Margin="0,4,0,0"
+                                        Background="{StaticResource CardBg2}"
+                                        BorderBrush="{StaticResource BorderSoft}"
+                                        BorderThickness="1"
+                                        CornerRadius="5">
+                                    <ScrollViewer MaxHeight="260">
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="MainBorder" Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MainBorder" Property="BorderBrush" Value="#44507A"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="MainBorder" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Buttons -->
+        <Style x:Key="ToolbarButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="MinWidth" Value="92"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.94"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.38"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GreenButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource GreenBrush}"/>
+        </Style>
+
+        <Style x:Key="BlueButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource BlueBrush}"/>
+        </Style>
+
+        <Style x:Key="DarkButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="Background" Value="#313853"/>
+        </Style>
+
+        <!-- Status-Pill -->
+        <Style x:Key="StatusPillBaseStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="10,2"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="MinWidth" Value="96"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Background" Value="#4B5563"/>
+        </Style>
+
+        <!-- DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource CardBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="RowBackground" Value="{StaticResource CardBg}"/>
+            <Setter Property="AlternatingRowBackground" Value="#23283A"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#2D3550"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#2D3550"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+            <Setter Property="RowHeight" Value="46"/>
+            <Setter Property="ColumnHeaderHeight" Value="40"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource CardBg2}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderBrush" Value="#2D3550"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="{StaticResource CardBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource RowHoverBrush}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource RowSelectedBrush}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Margin="20" Background="{StaticResource PageBg}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,16">
+            <TextBlock Text="◉"
+                       Foreground="#6EA8FF"
+                       FontSize="15"
+                       Margin="0,0,10,0"
+                       VerticalAlignment="Center"/>
+            <TextBlock Text="Bestellungen"
+                       Foreground="{StaticResource TextMain}"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Filterleiste -->
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="170"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Suche -->
+            <Grid Grid.Column="0">
+                <TextBox Style="{StaticResource FilterTextBoxStyle}"
+                         Text="{Binding Suchtext, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Suche..."
+                           Margin="14,0,0,0"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource TextMuted}"
+                           IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Suchtext}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Suchtext}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <ComboBox Grid.Column="1"
+                      Margin="10,0,0,0"
+                      Style="{StaticResource FilterComboBoxStyle}"
+                      SelectedIndex="0">
+                <ComboBoxItem Content="Diese Woche"/>
+                <ComboBoxItem Content="Dieser Monat"/>
+                <ComboBoxItem Content="Dieses Jahr"/>
+                <ComboBoxItem Content="Alle"/>
+            </ComboBox>
+
+            <ComboBox Grid.Column="2"
+                      Margin="10,0,0,0"
+                      Style="{StaticResource FilterComboBoxStyle}"
+                      SelectedIndex="0">
+                <ComboBoxItem Content="Alle"/>
+                <ComboBoxItem Content="Offen"/>
+                <ComboBoxItem Content="Bestätigt"/>
+                <ComboBoxItem Content="Versendet"/>
+                <ComboBoxItem Content="Abgeschlossen"/>
+                <ComboBoxItem Content="Storniert"/>
+            </ComboBox>
+
+            <ComboBox Grid.Column="3"
+                      Margin="10,0,0,0"
+                      Style="{StaticResource FilterComboBoxStyle}"
+                      SelectedIndex="0">
+                <ComboBoxItem Content="Alle"/>
+                <ComboBoxItem Content="Offen"/>
+                <ComboBoxItem Content="Teilweise bezahlt"/>
+                <ComboBoxItem Content="Bezahlt"/>
+            </ComboBox>
+
+            <Button Grid.Column="4"
+                    Margin="12,0,0,0"
+                    Style="{StaticResource BlueButtonStyle}"
+                    Content="Aktualisieren"
+                    Command="{Binding AktualisierenCommand}"/>
+        </Grid>
+
+        <!-- Toolbar -->
+        <Grid Grid.Row="2" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Background="{StaticResource CardBg2}"
+                    BorderBrush="#313853"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Height="36">
+                <TextBlock Text="Filter"
+                           VerticalAlignment="Center"
+                           Margin="12,0,0,0"
+                           Foreground="{StaticResource TextMuted}"
+                           FontSize="13"
+                           FontWeight="SemiBold"/>
+            </Border>
+
+            <Button Grid.Column="1"
+                    Margin="12,0,0,0"
+                    Style="{StaticResource GreenButtonStyle}"
+                    Content="+ Neu"
+                    Command="{Binding NeueCommand}"/>
+
+            <Button Grid.Column="2"
+                    Margin="8,0,0,0"
+                    Style="{StaticResource BlueButtonStyle}"
+                    Content="Bearbeiten"
+                    Command="{Binding BearbeitenCommand}"/>
+
+            <Button Grid.Column="3"
+                    Margin="8,0,0,0"
+                    Style="{StaticResource DarkButtonStyle}"
+                    Content="Status ändern"
+                    Command="{Binding StatusÄndernCommand}"/>
+
+            <Button Grid.Column="4"
+                    Margin="8,0,0,0"
+                    Style="{StaticResource DarkButtonStyle}"
+                    Content="Stornieren"
+                    Command="{Binding StornierenCommand}"/>
+
+            <Button Grid.Column="5"
+                    Margin="8,0,0,0"
+                    Style="{StaticResource DarkButtonStyle}"
+                    Content="Exportieren"
+                    ToolTip="PDF / Excel"/>
+        </Grid>
+
+        <!-- Liste -->
+        <Border Grid.Row="3"
+                Background="{StaticResource CardBg}"
+                BorderBrush="{StaticResource BorderSoft}"
+                BorderThickness="1"
+                CornerRadius="8">
+            <DataGrid ItemsSource="{Binding Bestellungen}"
+                      SelectedItem="{Binding AusgewählteBestellung, Mode=TwoWay}"
+                      AlternationCount="2"
+                      Margin="0"
+                      HeadersVisibility="Column"
+                      RowHeaderWidth="0">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nr."
+                                        Binding="{Binding BestellungID}"
+                                        Width="80"/>
+
+                    <DataGridTextColumn Header="Datum"
+                                        Binding="{Binding Bestelldatum, StringFormat={}{0:dd.MM.yyyy}}"
+                                        Width="130"/>
+
+                    <DataGridTemplateColumn Header="Kunde" Width="240">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Kunde.Name, TargetNullValue=—}"
+                                           Foreground="{StaticResource TextMain}"
+                                           VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Status" Width="170">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border >
+                                    <Border.Style>
+                                        <Style TargetType="Border" BasedOn="{StaticResource StatusPillBaseStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="Offen">
+                                                    <Setter Property="Background" Value="#E9A23B"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Bestätigt">
+                                                    <Setter Property="Background" Value="#2F80ED"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Versendet">
+                                                    <Setter Property="Background" Value="#7B61FF"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Abgeschlossen">
+                                                    <Setter Property="Background" Value="#16C172"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Storniert">
+                                                    <Setter Property="Background" Value="#D94C5C"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+
+                                    <TextBlock Text="{Binding Status}"
+                                               Foreground="White"
+                                               FontWeight="SemiBold"
+                                               FontSize="12"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Gesamt"
+                                        Binding="{Binding Gesamtbetrag, StringFormat={}{0:C2}}"
+                                        Width="140"/>
+
+                    <DataGridTextColumn Header="Zahlung"
+                                        Binding="{Binding BruttoSumme, StringFormat={}{0:C2}}"
+                                        Width="140"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer -->
+        <Grid Grid.Row="4" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="Einträge vorhanden"
+                       Foreground="{StaticResource TextMuted}"
+                       FontSize="13"
+                       VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal">
+                <Button Style="{StaticResource DarkButtonStyle}"
+                        Width="34"
+                        MinWidth="34"
+                        Margin="0"
+                        Padding="0"
+                        Content="‹"/>
+
+                <ComboBox Width="64"
+                          Margin="8,0"
+                          Style="{StaticResource FilterComboBoxStyle}"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="10"/>
+                    <ComboBoxItem Content="25"/>
+                    <ComboBoxItem Content="50"/>
+                </ComboBox>
+
+                <Button Style="{StaticResource DarkButtonStyle}"
+                        Width="34"
+                        MinWidth="34"
+                        Margin="0"
+                        Padding="0"
+                        Content="›"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
