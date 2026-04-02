@@ -34,36 +34,6 @@ Fokus: saubere Struktur, wartbarer Code und typische Business-Workflows (CRUD, V
 - Dashboard mit KPIs und Diagrammen
 - Validierung, Fehlerbehandlung & Logging
 
-## Screenshots
-> (Bilder liegen unter `docs/screenshots/`)
-
-## Screenshots
-
-### Dashboard
-![Dashboard](docs/Dashboard.png)
-
-### Dashboard (Variante)
-![Dashboard Variante](docs/Dashboard%201.png)
-
-### Benutzer – Abmelden
-![Benutzer Abmelden](docs/Benutzer%20Abmelden.png)
-
-### Kundenverwaltung
-![Kundenverwaltung](docs/Kundenverwaltung.png)
-
-### Produkte – Übersicht
-![Produkteübersicht](docs/Produkteübersicht.png)
-
-### Produktdetails
-![Produktdetails](docs/Produktdetails.png)
-### Aufgaben
-![Aufgabenübersicht](docs/Aufgabenubersicht%20photo.png)
-
-### Warnungen
-![Warnungen](docs/Warnungen.png)
-
-### API / Swagger
-![API Swagger](docs/API-Swagger.png)
 
 
 ## How to Run (lokal)
